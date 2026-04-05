@@ -35,4 +35,4 @@ if (!in_array($user_role, [ROLE_ADMIN, ROLE_HR, ROLE_EMPLOYEE])) {
 }
 
 $handler = new ExportHandler();
-$handler->export($requested_en_no, $month);
+$handler->exportCSV($requested_en_no, $month);

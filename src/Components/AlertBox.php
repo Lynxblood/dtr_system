@@ -66,4 +66,27 @@ class AlertBox
         <div id="<?php echo htmlspecialchars($id); ?>" class="mb-4"></div>
         <?php
     }
+
+    /**
+     * Render alert based on type
+     */
+    public static function show($type, $message)
+    {
+        switch ($type) {
+            case 'success':
+                self::success($message);
+                break;
+            case 'error':
+                self::error($message);
+                break;
+            case 'warning':
+                self::warning($message);
+                break;
+            case 'info':
+                self::info($message);
+                break;
+            default:
+                self::info($message);
+        }
+    }
 }

@@ -7,34 +7,41 @@
 
 namespace App\Handlers;
 
+require_once __DIR__ . '/NotificationHandler.php';
+
 use App\Core\Database;
+use App\Handlers\NotificationHandler;
 
 class ImportHandler
 {
     private $db;
     private $defaultPassword;
+    private $notificationHandler;
 
     public function __construct()
     {
         $this->db = Database::getInstance();
         $this->defaultPassword = password_hash(DEFAULT_PASSWORD, PASSWORD_BCRYPT);
+        $this->notificationHandler = new NotificationHandler();
     }
 
     /**
      * Import attendance records from uploaded file
      */
-    public function import($filePath)
+    public function import($file)
     {
-        if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+        $file = $file['file'] ?? $file;
+
+        if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
             return ['status' => 'error', 'message' => 'No file uploaded or upload error.'];
         }
 
-        if ($_FILES['file']['size'] > MAX_UPLOAD_SIZE) {
+        if ($file['size'] > MAX_UPLOAD_SIZE) {
             return ['status' => 'error', 'message' => 'File size exceeds maximum allowed size.'];
         }
 
         try {
-            $lines = file($_FILES['file']['tmp_name'], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $lines = file($file['tmp_name'], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
             if (empty($lines)) {
                 return ['status' => 'error', 'message' => 'File is empty.'];
@@ -84,6 +91,14 @@ class ImportHandler
             }
 
             $this->db->commit();
+
+            // Send notification to HR
+            if ($insertedRecords > 0) {
+                $this->notificationHandler->sendNotificationToRole(
+                    "Admin imported $insertedRecords new attendance records" . ($newEmployees > 0 ? " and created accounts for $newEmployees new employees" : "") . ".",
+                    ROLE_HR
+                );
+            }
 
             return [
                 'status' => 'success',
