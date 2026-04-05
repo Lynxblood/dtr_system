@@ -46,6 +46,46 @@ CREATE TABLE IF NOT EXISTS attendance_logs (
 );
 
 -- =====================================================
+-- Employee Submissions Table
+-- =====================================================
+CREATE TABLE IF NOT EXISTS employee_submissions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    en_no INT NOT NULL,
+    month VARCHAR(7) NOT NULL, -- YYYY-MM
+    file_path VARCHAR(255),
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    approved_at TIMESTAMP NULL,
+    remarks TEXT,
+    FOREIGN KEY (en_no) REFERENCES employees(en_no) ON DELETE CASCADE,
+    INDEX idx_en_no_month (en_no, month),
+    INDEX idx_status (status)
+);
+
+-- =====================================================
+-- Notifications Table
+-- =====================================================
+CREATE TABLE IF NOT EXISTS notifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NULL,
+    en_no INT NULL,
+    message TEXT NOT NULL,
+    is_read TINYINT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (en_no) REFERENCES employees(en_no) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_en_no (en_no),
+    INDEX idx_read (is_read)
+);
+
+-- NOTE: For existing databases, add user_id and allow nullable en_no in notifications:
+-- ALTER TABLE notifications ADD COLUMN user_id INT NULL;
+-- ALTER TABLE notifications MODIFY COLUMN en_no INT NULL;
+-- ALTER TABLE notifications ADD INDEX idx_user_id (user_id);
+-- ALTER TABLE notifications ADD CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+-- =====================================================
 -- Insert Default Admin User (optional)
 -- =====================================================
 -- Username: admin, Password: admin123 (hashed with bcrypt, min 8 chars)

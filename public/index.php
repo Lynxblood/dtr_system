@@ -78,46 +78,52 @@ Header::render('Admin Dashboard');
 <!-- Dashboard Content -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <!-- Stats Card 1 -->
-    <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow-lg p-6 text-white">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-blue-100 text-sm">Total Records</p>
-                <p class="text-3xl font-bold mt-2"><?php echo (int)$totalRecords; ?></p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Total Records</p>
+                <p class="text-3xl font-bold mt-2 text-gray-900 dark:text-white"><?php echo (int)$totalRecords; ?></p>
             </div>
-            <svg class="w-12 h-12 text-blue-200 opacity-50" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"></path>
-            </svg>
+            <div class="text-blue-600">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"></path>
+                </svg>
+            </div>
         </div>
     </div>
 
     <!-- Stats Card 2 -->
-    <div class="bg-gradient-to-br from-green-500 to-green-700 rounded-lg shadow-lg p-6 text-white">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-green-100 text-sm">Total Employees</p>
-                <p class="text-3xl font-bold mt-2"><?php echo count($employees); ?></p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Total Employees</p>
+                <p class="text-3xl font-bold mt-2 text-gray-900 dark:text-white"><?php echo count($employees); ?></p>
             </div>
-            <svg class="w-12 h-12 text-green-200 opacity-50" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM9 12a6 6 0 11-12 0 6 6 0 0112 0z"></path>
-            </svg>
+            <div class="text-green-600">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM9 12a6 6 0 11-12 0 6 6 0 0112 0z"></path>
+                </svg>
+            </div>
         </div>
     </div>
 
     <!-- Stats Card 3 -->
-    <div class="bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg shadow-lg p-6 text-white">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-purple-100 text-sm">System Status</p>
-                <p class="text-2xl font-bold mt-2">
+                <p class="text-gray-600 dark:text-gray-400 text-sm">System Status</p>
+                <p class="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
                     <span class="inline-flex items-center">
                         <span class="w-3 h-3 bg-green-400 rounded-full mr-2"></span>
                         Online
                     </span>
                 </p>
             </div>
-            <svg class="w-12 h-12 text-purple-200 opacity-50" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zm1.622-5.89a11.001 11.001 0 0112.331 10.89 20 20 0 01-40 0c1.461-4.435 8.402-7.747 15.809-7.878l2.86.013z" clip-rule="evenodd"></path>
-            </svg>
+            <div class="text-purple-600">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zm1.622-5.89a11.001 11.001 0 0112.331 10.89 20 20 0 01-40 0c1.461-4.435 8.402-7.747 15.809-7.878l2.86.013z" clip-rule="evenodd"></path>
+                </svg>
+            </div>
         </div>
     </div>
 </div>

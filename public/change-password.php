@@ -41,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (in_array($role, [ROLE_ADMIN, ROLE_HR])) {
                 header("Location: index.php");
             } else {
-                header("Location: attendance.php");
+                // header("Location: attendance.php");
+                header("Location: employee.php");
             }
             exit;
         } else {

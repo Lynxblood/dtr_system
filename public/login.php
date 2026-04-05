@@ -34,10 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Route based on role
-            if (in_array($user['role'], [ROLE_ADMIN, ROLE_HR])) {
+            if ($user['role'] === ROLE_ADMIN) {
                 header("Location: index.php");
+            } elseif ($user['role'] === ROLE_HR) {
+                header("Location: hr.php");
             } else {
-                header("Location: attendance.php");
+                header("Location: employee.php");
             }
             exit;
         } else {
