@@ -19,8 +19,8 @@ Auth::requirePasswordChange();
 // Check if user is authorized to export
 $user_role = Auth::getRole();
 $user_en_no = Auth::getEnNo();
-$requested_en_no = isset($_GET['en_no']) ? (int)$_GET['en_no'] : null;
-$month = $_GET['month'] ?? date('Y-m');
+$requested_en_no = isset($_REQUEST['en_no']) ? (int)$_REQUEST['en_no'] : null;
+$month = $_REQUEST['month'] ?? date('Y-m');
 
 // Employees can only export their own data
 if ($user_role === ROLE_EMPLOYEE && $user_en_no !== $requested_en_no) {

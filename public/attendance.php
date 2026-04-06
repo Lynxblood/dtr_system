@@ -24,7 +24,10 @@ Auth::requireRole(ROLE_EMPLOYEE);
 
 $db = Database::getInstance();
 $en_no = Auth::getEnNo();
-$selectedMonth = isset($_GET['month']) ? $_GET['month'] : date('Y-m');
+$selectedMonth = date('Y-m');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'filter_month') {
+    $selectedMonth = $_POST['month'] ?? $selectedMonth;
+}
 
 // Fetch employee name
 $nameStmt = $db->query("SELECT name FROM employees WHERE en_no = ?", [$en_no]);
@@ -137,7 +140,8 @@ Header::render('My Attendance - ' . htmlspecialchars($displayName));
     <!-- Month Selector -->
     <div class="bg-white rounded-lg shadow-lg p-6 dark:bg-gray-800">
         <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Select Month</p>
-        <form method="GET" action="attendance.php" class="space-y-3">
+        <form method="POST" action="attendance.php" class="space-y-3">
+            <input type="hidden" name="action" value="filter_month">
             <input 
                 type="month" 
                 name="month" 
@@ -154,13 +158,16 @@ Header::render('My Attendance - ' . htmlspecialchars($displayName));
 
 <!-- Download Section -->
 <div class="mb-8">
-    <a href="export.php?month=<?php echo htmlspecialchars($selectedMonth); ?>&en_no=<?php echo htmlspecialchars($en_no); ?>" 
-       class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-        </svg>
-        Download CSV Report
-    </a>
+    <form action="export.php" method="POST" class="inline-block">
+        <input type="hidden" name="month" value="<?php echo htmlspecialchars($selectedMonth); ?>">
+        <input type="hidden" name="en_no" value="<?php echo htmlspecialchars($en_no); ?>">
+        <button type="submit" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Download CSV Report
+        </button>
+    </form>
 </div>
 
 <!-- Attendance Table -->

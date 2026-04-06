@@ -85,9 +85,13 @@ Header::render('Admin Dashboard');
                 <p class="text-3xl font-bold mt-2 text-gray-900 dark:text-white"><?php echo (int)$totalRecords; ?></p>
             </div>
             <div class="text-blue-600">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <!-- <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"></path>
+                </svg> -->
+                <svg class="w-8 h-8 text-primary-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m4 8h6m-6-4h6m4-8v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"/>
                 </svg>
+
             </div>
         </div>
     </div>
@@ -100,9 +104,13 @@ Header::render('Admin Dashboard');
                 <p class="text-3xl font-bold mt-2 text-gray-900 dark:text-white"><?php echo count($employees); ?></p>
             </div>
             <div class="text-green-600">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <!-- <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM9 12a6 6 0 11-12 0 6 6 0 0112 0z"></path>
+                </svg> -->
+                <svg class="w-8 h-8 text-green-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
                 </svg>
+
             </div>
         </div>
     </div>
@@ -120,9 +128,13 @@ Header::render('Admin Dashboard');
                 </p>
             </div>
             <div class="text-purple-600">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <!-- <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zm1.622-5.89a11.001 11.001 0 0112.331 10.89 20 20 0 01-40 0c1.461-4.435 8.402-7.747 15.809-7.878l2.86.013z" clip-rule="evenodd"></path>
+                </svg> -->
+                <svg class="w-8 h-8 text-purple-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 6c0 1.657-3.134 3-7 3S5 7.657 5 6m14 0c0-1.657-3.134-3-7-3S5 4.343 5 6m14 0v6M5 6v6m0 0c0 1.657 3.134 3 7 3s7-1.343 7-3M5 12v6c0 1.657 3.134 3 7 3s7-1.343 7-3v-6"/>
                 </svg>
+
             </div>
         </div>
     </div>
@@ -165,7 +177,7 @@ Header::render('Admin Dashboard');
             Generate a CSV report for any employee and selected month.
         </p>
         
-        <form action="export.php" method="GET" class="space-y-4">
+        <form action="export.php" method="POST" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="en_no" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Employee</label>

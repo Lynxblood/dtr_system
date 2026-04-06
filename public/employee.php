@@ -37,8 +37,8 @@ $submissionHandler = new SubmissionHandler();
 $notificationHandler = new NotificationHandler();
 
 // Handle PDF export
-if (isset($_GET['action']) && $_GET['action'] === 'export_pdf') {
-    $month = $_GET['month'] ?? date('Y-m');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'export_pdf') {
+    $month = $_POST['month'] ?? date('Y-m');
     $exportHandler->exportPDF($en_no, $month);
 }
 
@@ -73,9 +73,13 @@ window.NOTIFICATIONS = <?php echo json_encode($notifications); ?>;
                 <p class="text-3xl font-bold mt-2 text-gray-900 dark:text-white"><?php echo count($submissions); ?></p>
             </div>
             <div class="text-blue-600">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <!-- <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 000 16zm0-14a7 7 0 100 14 7 7 0 000-14z"></path>
+                </svg> -->
+                <svg class="w-8 h-8 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 17v-5h1.5a1.5 1.5 0 1 1 0 3H5m12 2v-5h2m-2 3h2M5 10V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1v6M5 19v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1M10 3v4a1 1 0 0 1-1 1H5m6 4v5h1.375A1.627 1.627 0 0 0 14 15.375v-1.75A1.627 1.627 0 0 0 12.375 12H11Z"/>
                 </svg>
+
             </div>
         </div>
     </div>
@@ -88,9 +92,13 @@ window.NOTIFICATIONS = <?php echo json_encode($notifications); ?>;
                 <p class="text-3xl font-bold mt-2 text-gray-900 dark:text-white"><?php echo $unreadCount; ?> Unread</p>
             </div>
             <div class="text-green-600">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <!-- <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM8 16a2 2 0 104 0H8z"></path>
+                </svg> -->
+                <svg class="w-8 h-8 text-green-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10.827 5.465-.435-2.324m.435 2.324a5.338 5.338 0 0 1 6.033 4.333l.331 1.769c.44 2.345 2.383 2.588 2.6 3.761.11.586.22 1.171-.31 1.271l-12.7 2.377c-.529.099-.639-.488-.749-1.074C5.813 16.73 7.538 15.8 7.1 13.455c-.219-1.169.218 1.162-.33-1.769a5.338 5.338 0 0 1 4.058-6.221Zm-7.046 4.41c.143-1.877.822-3.461 2.086-4.856m2.646 13.633a3.472 3.472 0 0 0 6.728-.777l.09-.5-6.818 1.277Z"/>
                 </svg>
+
             </div>
         </div>
     </div>
@@ -104,7 +112,7 @@ window.NOTIFICATIONS = <?php echo json_encode($notifications); ?>;
             Download a PDF of your attendance records for signing.
         </p>
         
-        <form action="employee.php" method="GET" class="space-y-4">
+        <form action="employee.php" method="POST" class="space-y-4">
             <input type="hidden" name="action" value="export_pdf">
             <div>
                 <label for="month" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Month</label>
@@ -152,6 +160,7 @@ window.NOTIFICATIONS = <?php echo json_encode($notifications); ?>;
                     type="file" 
                     accept=".pdf"
                     required>
+                
             </div>
             <button 
                 type="submit" 
