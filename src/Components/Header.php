@@ -23,14 +23,11 @@ class Header
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title><?php echo htmlspecialchars($title ? $title . ' - ' . $appName : $appName); ?></title>
             
-            <!-- Tailwind CSS -->
-            <script src="https://cdn.tailwindcss.com"></script>
+            <!-- Local Tailwind + Flowbite CSS -->
+            <link rel="stylesheet" href="<?php echo APP_URL; ?>/public/assets/css/tailwind.css">
             
-            <!-- Flowbite CSS -->
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-            
-            <!-- DataTables -->
-            <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
+            <!-- Simple-DataTables -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3/dist/style.css">
             
             <!-- Custom CSS -->
             <link rel="stylesheet" href="<?php echo APP_URL; ?>/public/assets/css/main.css">
@@ -50,6 +47,10 @@ class Header
                                 $homeUrl .= 'index.php';
                             } elseif ($user['role'] === ROLE_HR) {
                                 $homeUrl .= 'hr.php';
+                            } elseif ($user['role'] === ROLE_PRESIDENT) {
+                                $homeUrl .= 'president.php';
+                            } elseif ($user['role'] === ROLE_HEAD) {
+                                $homeUrl .= 'head.php';
                             } else {
                                 $homeUrl .= 'employee.php';
                             }
@@ -62,6 +63,63 @@ class Header
                     </div>
                     
                     <div class="flex items-center gap-4">
+                        <!-- Navigation Menu -->
+                        <div class="hidden md:flex items-center space-x-1">
+                            <a href="<?php 
+                                $homeUrl = APP_URL . '/public/';
+                                if ($user['role'] === ROLE_ADMIN) {
+                                    $homeUrl .= 'index.php';
+                                } elseif ($user['role'] === ROLE_HR) {
+                                    $homeUrl .= 'hr.php';
+                                } elseif ($user['role'] === ROLE_PRESIDENT) {
+                                    $homeUrl .= 'president.php';
+                                } elseif ($user['role'] === ROLE_HEAD) {
+                                    $homeUrl .= 'head.php';
+                                } else {
+                                    $homeUrl .= 'employee.php';
+                                }
+                                echo $homeUrl;
+                            ?>" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 rounded-lg transition">
+                                Dashboard
+                            </a>
+                            <a href="<?php echo APP_URL; ?>/public/certificates.php" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 rounded-lg transition">
+                                Certificates
+                            </a>
+                        </div>
+
+                        <!-- Mobile menu button -->
+                        <button id="mobileMenuButton" type="button" class="md:hidden inline-flex items-center justify-center p-2 text-gray-600 hover:text-gray-900 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-lg transition">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+
+                        <!-- Mobile Navigation Menu -->
+                        <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-lg">
+                            <div class="px-4 py-3 space-y-2">
+                                <a href="<?php 
+                                    $homeUrl = APP_URL . '/public/';
+                                    if ($user['role'] === ROLE_ADMIN) {
+                                        $homeUrl .= 'index.php';
+                                    } elseif ($user['role'] === ROLE_HR) {
+                                        $homeUrl .= 'hr.php';
+                                    } elseif ($user['role'] === ROLE_PRESIDENT) {
+                                        $homeUrl .= 'president.php';
+                                    } elseif ($user['role'] === ROLE_HEAD) {
+                                        $homeUrl .= 'head.php';
+                                    } else {
+                                        $homeUrl .= 'employee.php';
+                                    }
+                                    echo $homeUrl;
+                                ?>" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 rounded-lg transition">
+                                    Dashboard
+                                </a>
+                                <a href="<?php echo APP_URL; ?>/public/certificates.php" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700 rounded-lg transition">
+                                    Certificates
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="relative">
                             <button id="notificationsButton" type="button" class="inline-flex items-center justify-center p-2 text-gray-600 hover:text-gray-900 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -110,10 +168,9 @@ class Header
             </footer>
 
             <!-- Scripts -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.6/js/dataTables.tailwindcss.min.js"></script>
+            <script src="<?php echo APP_URL; ?>/public/assets/vendor/jquery/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3/dist/umd/simple-datatables.js"></script>
+            <script src="<?php echo APP_URL; ?>/public/assets/vendor/flowbite/flowbite.min.js"></script>
             <script src="<?php echo APP_URL; ?>/public/assets/js/main.js"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -156,6 +213,23 @@ class Header
                         document.addEventListener('click', function(event) {
                             if (!event.target.closest('#notificationsPanel') && !event.target.closest('#notificationsButton')) {
                                 panel.classList.add('hidden');
+                            }
+                        });
+                    }
+
+                    // Mobile menu toggle
+                    const mobileMenuButton = document.getElementById('mobileMenuButton');
+                    const mobileMenu = document.getElementById('mobileMenu');
+
+                    if (mobileMenuButton && mobileMenu) {
+                        mobileMenuButton.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                            mobileMenu.classList.toggle('hidden');
+                        });
+
+                        document.addEventListener('click', function(event) {
+                            if (!event.target.closest('#mobileMenu') && !event.target.closest('#mobileMenuButton')) {
+                                mobileMenu.classList.add('hidden');
                             }
                         });
                     }

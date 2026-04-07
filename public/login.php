@@ -38,6 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: index.php");
             } elseif ($user['role'] === ROLE_HR) {
                 header("Location: hr.php");
+            } elseif ($user['role'] === ROLE_PRESIDENT) {
+                header("Location: president.php");
+            } elseif ($user['role'] === ROLE_HEAD) {
+                header("Location: head.php");
             } else {
                 header("Location: employee.php");
             }

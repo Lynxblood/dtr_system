@@ -47,6 +47,8 @@ define('UPLOAD_TEMP_DIR', __DIR__ . '/../../uploads/');
 define('ROLE_ADMIN', 'admin');
 define('ROLE_HR', 'hr');
 define('ROLE_EMPLOYEE', 'employee');
+define('ROLE_PRESIDENT', 'president');
+define('ROLE_HEAD', 'head');
 
 // Timezone
 date_default_timezone_set('UTC');

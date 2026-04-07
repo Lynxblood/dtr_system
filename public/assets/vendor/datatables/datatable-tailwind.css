@@ -1,0 +1,332 @@
+table.dataTable>tbody>tr>th,
+table.dataTable>tbody>tr>td {
+    @apply p-3;
+}
+
+div.dtsp-searchPane div.dt-container div.dt-scroll-body table tr>th,
+div.dtsp-searchPane div.dt-container div.dt-scroll-body table tr>td,
+div.dtsp-searchPane div.dt-container div.dataTables_scrollBody table tr>th,
+div.dtsp-searchPane div.dt-container div.dataTables_scrollBody table tr>td,
+div.dtsp-searchPane div.dataTables_wrapper div.dt-scroll-body table tr>th,
+div.dtsp-searchPane div.dataTables_wrapper div.dt-scroll-body table tr>td,
+div.dtsp-searchPane div.dataTables_wrapper div.dataTables_scrollBody table tr>th,
+div.dtsp-searchPane div.dataTables_wrapper div.dataTables_scrollBody table tr>td {
+    @apply px-3 py-2;
+}
+
+div.dtsp-searchPane div.dt-container,
+div.dtsp-searchPane div.dataTables_wrapper {
+    @apply rounded-lg;
+}
+
+table.fixedHeader-floating,
+table.fixedHeader-locked {
+    @apply bg-light-50 dark:bg-dark-800 text-gray-900 dark:text-white;
+}
+
+div.dtsp-searchPane div.dt-container,
+div.dtsp-searchPane div.dataTables_wrapper {
+    @apply border border-light-200 dark:border-dark-600 hover:border-light-100 dark:hover:border-dark-700;
+}
+
+div.dtsp-searchPane div.dt-container table.dataTable,
+div.dtsp-searchPane div.dataTables_wrapper table.dataTable {
+    @apply table-fixed;
+}
+
+html.dark div.dtsp-searchPane div.dt-container div.dt-scroll-body,
+html.dark div.dtsp-searchPane div.dt-container div.dataTables_scrollBody,
+html.dark div.dtsp-searchPane div.dataTables_wrapper div.dt-scroll-body,
+html.dark div.dtsp-searchPane div.dataTables_wrapper div.dataTables_scrollBody div.dts div.dt-scroll-body table,
+div.dts div.dataTables_scrollBody table,
+div.dtsp-searchPane div.dt-container div.dt-scroll-body,
+div.dtsp-searchPane div.dt-container div.dataTables_scrollBody,
+div.dtsp-searchPane div.dataTables_wrapper div.dt-scroll-body,
+div.dtsp-searchPane div.dataTables_wrapper div.dataTables_scrollBody {
+    @apply !bg-transparent;
+}
+
+/* SVGs ------------------- */
+
+.dtta-svg {
+    @apply w-4 h-4;
+}
+
+/* Selected ------------------- */
+
+table.dataTable>tbody>tr.selected>*,
+html.dark table.dataTable>tbody>tr.selected>* {
+    @apply shadow-none text-inherit;
+}
+
+/* Pagination ------------------- */
+
+.dtta-pagination button:first-child {
+    @apply rounded-l-lg;
+}
+
+.dtta-pagination button:last-child {
+    @apply rounded-r-lg;
+}
+
+.dtta-pagination span.ellipsis {
+    @apply inline-flex border border-light-200 dark:border-dark-600 py-2 px-3 leading-6 -mr-px h-[42px];
+}
+
+/* Processing ------------------- */
+
+div.dt-processing>div:last-child>div {
+    @apply bg-primary-500 dark:bg-primary-400;
+}
+
+/* Button group ------------------- */
+
+html.dark div.dt-button-collection,
+div.dt-button-collection {
+    @apply absolute top-0 left-0 z-2002 overflow-hidden w-[250px] max-w-[250px] my-1 shadow-none border-0 p-0 bg-transparent box-border;
+}
+
+/* Define color rows */
+
+tr.danger-row:not(.selected)>td,
+tr.danger-row:not(.selected)>th,
+tr:not(.selected)>th.danger-cell,
+tr:not(.selected)>td.danger-cell,
+tr.success-row:not(.selected)>td,
+tr.success-row:not(.selected)>th,
+tr:not(.selected)>th.success-cell,
+tr:not(.selected)>td.success-cell,
+tr.warning-row:not(.selected)>td,
+tr.warning-row:not(.selected)>th,
+tr:not(.selected)>th.warning-cell,
+tr:not(.selected)>td.warning-cell,
+tr.info-row:not(.selected)>td,
+tr.info-row:not(.selected)>th,
+tr:not(.selected)>th.info-cell,
+tr:not(.selected)>td.info-cell,
+tr.secondary-row:not(.selected)>td,
+tr.secondary-row:not(.selected)>th,
+tr:not(.selected)>th.secondary-cell,
+tr:not(.selected)>td.secondary-cell {
+    @apply inset-shadow-[0_0_0_200px];
+}
+
+/* Danger */
+
+tr.danger-row:not(.selected)>td,
+tr.danger-row:not(.selected)>th,
+tr:not(.selected)>th.danger-cell,
+tr:not(.selected)>td.danger-cell {
+    @apply inset-shadow-red-100 dark:inset-shadow-red-950;
+}
+
+tr.danger-row:not(.selected):hover>td,
+tr.danger-row:not(.selected):hover>th,
+tr:not(.selected):hover>th.danger-cell,
+tr:not(.selected):hover>td.danger-cell {
+    @apply inset-shadow-red-200 dark:inset-shadow-red-900;
+}
+
+tr.striped-col.danger-row:not(.selected)>td,
+tr.striped-col.danger-row:not(.selected)>th,
+tr.striped-col:not(.selected)>th.danger-cell,
+tr.striped-col:not(.selected)>td.danger-cell {
+    @apply even:inset-shadow-red-200 dark:even:inset-shadow-red-900;
+}
+
+tr.striped-row.danger-row:nth-of-type(2n):not(.selected)>td,
+tr.striped-row.danger-row:nth-of-type(2n):not(.selected)>th,
+tr.striped-row:nth-of-type(2n):not(.selected)>th.danger-cell,
+tr.striped-row:nth-of-type(2n):not(.selected)>td.danger-cell {
+    @apply inset-shadow-red-200 dark:inset-shadow-red-900;
+}
+
+tr.striped-col.danger-row:not(.selected):hover>td,
+tr.striped-col.danger-row:not(.selected):hover>th,
+tr.striped-col:not(.selected):hover>th.danger-cell,
+tr.striped-col:not(.selected):hover>td.danger-cell {
+    @apply even:inset-shadow-red-300 dark:even:inset-shadow-red-800;
+}
+
+tr.striped-row.danger-row:nth-of-type(2n):not(.selected):hover>td,
+tr.striped-row.danger-row:nth-of-type(2n):not(.selected):hover>th,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>th.danger-cell,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>td.danger-cell {
+    @apply inset-shadow-red-300 dark:inset-shadow-red-800;
+}
+
+/* Success */
+
+tr.success-row:not(.selected)>td,
+tr.success-row:not(.selected)>th,
+tr:not(.selected)>th.success-cell,
+tr:not(.selected)>td.success-cell {
+    @apply inset-shadow-green-100 dark:inset-shadow-green-950;
+}
+
+tr.success-row:not(.selected):hover>td,
+tr.success-row:not(.selected):hover>th,
+tr:not(.selected):hover>th.success-cell,
+tr:not(.selected):hover>td.success-cell {
+    @apply inset-shadow-green-200 dark:inset-shadow-green-900;
+}
+
+tr.striped-col.success-row:not(.selected)>td,
+tr.striped-col.success-row:not(.selected)>th,
+tr.striped-col:not(.selected)>th.success-cell,
+tr.striped-col:not(.selected)>td.success-cell {
+    @apply even:inset-shadow-green-200 dark:even:inset-shadow-green-900;
+}
+
+tr.striped-row.success-row:nth-of-type(2n):not(.selected)>td,
+tr.striped-row.success-row:nth-of-type(2n):not(.selected)>th,
+tr.striped-row:nth-of-type(2n):not(.selected)>th.success-cell,
+tr.striped-row:nth-of-type(2n):not(.selected)>td.success-cell {
+    @apply inset-shadow-green-200 dark:inset-shadow-green-900;
+}
+
+tr.striped-col.success-row:not(.selected):hover>td,
+tr.striped-col.success-row:not(.selected):hover>th,
+tr.striped-col:not(.selected):hover>th.success-cell,
+tr.striped-col:not(.selected):hover>td.success-cell {
+    @apply even:inset-shadow-green-300 dark:even:inset-shadow-green-800;
+}
+
+tr.striped-row.success-row:nth-of-type(2n):not(.selected):hover>td,
+tr.striped-row.success-row:nth-of-type(2n):not(.selected):hover>th,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>th.success-cell,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>td.success-cell {
+    @apply inset-shadow-green-300 dark:inset-shadow-green-800;
+}
+
+/* Warning */
+
+tr.warning-row:not(.selected)>td,
+tr.warning-row:not(.selected)>th,
+tr:not(.selected)>th.warning-cell,
+tr:not(.selected)>td.warning-cell {
+    @apply inset-shadow-yellow-100 dark:inset-shadow-yellow-950;
+}
+
+tr.warning-row:not(.selected):hover>td,
+tr.warning-row:not(.selected):hover>th,
+tr:not(.selected):hover>th.warning-cell,
+tr:not(.selected):hover>td.warning-cell {
+    @apply inset-shadow-yellow-200 dark:inset-shadow-yellow-900;
+}
+
+tr.striped-col.warning-row:not(.selected)>td,
+tr.striped-col.warning-row:not(.selected)>th,
+tr.striped-col:not(.selected)>th.warning-cell,
+tr.striped-col:not(.selected)>td.warning-cell {
+    @apply even:inset-shadow-yellow-200 dark:even:inset-shadow-yellow-900;
+}
+
+tr.striped-row.warning-row:nth-of-type(2n):not(.selected)>td,
+tr.striped-row.warning-row:nth-of-type(2n):not(.selected)>th,
+tr.striped-row:nth-of-type(2n):not(.selected)>th.warning-cell,
+tr.striped-row:nth-of-type(2n):not(.selected)>td.warning-cell {
+    @apply inset-shadow-yellow-200 dark:inset-shadow-yellow-900;
+}
+
+tr.striped-col.warning-row:not(.selected):hover>td,
+tr.striped-col.warning-row:not(.selected):hover>th,
+tr.striped-col:not(.selected):hover>th.warning-cell,
+tr.striped-col:not(.selected):hover>td.warning-cell {
+    @apply even:inset-shadow-yellow-300 dark:even:inset-shadow-yellow-800;
+}
+
+tr.striped-row.warning-row:nth-of-type(2n):not(.selected):hover>td,
+tr.striped-row.warning-row:nth-of-type(2n):not(.selected):hover>th,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>th.warning-cell,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>td.warning-cell {
+    @apply inset-shadow-yellow-300 dark:inset-shadow-yellow-800;
+}
+
+/* Info */
+
+tr.info-row:not(.selected)>td,
+tr.info-row:not(.selected)>th,
+tr:not(.selected)>th.info-cell,
+tr:not(.selected)>td.info-cell {
+    @apply inset-shadow-blue-100 dark:inset-shadow-blue-950;
+}
+
+tr.info-row:not(.selected):hover>td,
+tr.info-row:not(.selected):hover>th,
+tr:not(.selected):hover>th.info-cell,
+tr:not(.selected):hover>td.info-cell {
+    @apply inset-shadow-blue-200 dark:inset-shadow-blue-900;
+}
+
+tr.striped-col.info-row:not(.selected)>td,
+tr.striped-col.info-row:not(.selected)>th,
+tr.striped-col:not(.selected)>th.info-cell,
+tr.striped-col:not(.selected)>td.info-cell {
+    @apply even:inset-shadow-blue-200 dark:even:inset-shadow-blue-900;
+}
+
+tr.striped-row.info-row:nth-of-type(2n):not(.selected)>td,
+tr.striped-row.info-row:nth-of-type(2n):not(.selected)>th,
+tr.striped-row:nth-of-type(2n):not(.selected)>th.info-cell,
+tr.striped-row:nth-of-type(2n):not(.selected)>td.info-cell {
+    @apply inset-shadow-blue-200 dark:inset-shadow-blue-900;
+}
+
+tr.striped-col.info-row:not(.selected):hover>td,
+tr.striped-col.info-row:not(.selected):hover>th,
+tr.striped-col:not(.selected):hover>th.info-cell,
+tr.striped-col:not(.selected):hover>td.info-cell {
+    @apply even:inset-shadow-blue-300 dark:even:inset-shadow-blue-800;
+}
+
+tr.striped-row.info-row:nth-of-type(2n):not(.selected):hover>td,
+tr.striped-row.info-row:nth-of-type(2n):not(.selected):hover>th,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>th.info-cell,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>td.info-cell {
+    @apply inset-shadow-blue-300 dark:inset-shadow-blue-800;
+}
+
+/* Secondary */
+
+tr.secondary-row:not(.selected)>td,
+tr.secondary-row:not(.selected)>th,
+tr:not(.selected)>th.secondary-cell,
+tr:not(.selected)>td.secondary-cell {
+    @apply inset-shadow-neutral-100 dark:inset-shadow-neutral-950;
+}
+
+tr.secondary-row:not(.selected):hover>td,
+tr.secondary-row:not(.selected):hover>th,
+tr:not(.selected):hover>th.secondary-cell,
+tr:not(.selected):hover>td.secondary-cell {
+    @apply inset-shadow-neutral-200 dark:inset-shadow-neutral-900;
+}
+
+tr.striped-col.secondary-row:not(.selected)>td,
+tr.striped-col.secondary-row:not(.selected)>th,
+tr.striped-col:not(.selected)>th.secondary-cell,
+tr.striped-col:not(.selected)>td.secondary-cell {
+    @apply even:inset-shadow-neutral-200 dark:even:inset-shadow-neutral-900;
+}
+
+tr.striped-row.secondary-row:nth-of-type(2n):not(.selected)>td,
+tr.striped-row.secondary-row:nth-of-type(2n):not(.selected)>th,
+tr.striped-row:nth-of-type(2n):not(.selected)>th.secondary-cell,
+tr.striped-row:nth-of-type(2n):not(.selected)>td.secondary-cell {
+    @apply inset-shadow-neutral-200 dark:inset-shadow-neutral-900;
+}
+
+tr.striped-col.secondary-row:not(.selected):hover>td,
+tr.striped-col.secondary-row:not(.selected):hover>th,
+tr.striped-col:not(.selected):hover>th.secondary-cell,
+tr.striped-col:not(.selected):hover>td.secondary-cell {
+    @apply even:inset-shadow-neutral-300 dark:even:inset-shadow-neutral-800;
+}
+
+tr.striped-row.secondary-row:nth-of-type(2n):not(.selected):hover>td,
+tr.striped-row.secondary-row:nth-of-type(2n):not(.selected):hover>th,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>th.secondary-cell,
+tr.striped-row:nth-of-type(2n):not(.selected):hover>td.secondary-cell {
+    @apply inset-shadow-neutral-300 dark:inset-shadow-neutral-800;
+}

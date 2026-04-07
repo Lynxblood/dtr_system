@@ -30,8 +30,8 @@ $submissionHandler = new SubmissionHandler();
 $notificationHandler = new NotificationHandler();
 
 // Get notifications for current HR user
-$notifications = $notificationHandler->getNotifications($_SESSION['user_id']);
-$unreadCount = $notificationHandler->getUnreadCount($_SESSION['user_id']);
+$notifications = $notificationHandler->getNotifications($_SESSION['user_id'], null);
+$unreadCount = $notificationHandler->getUnreadCount($_SESSION['user_id'], null);
 
 // Handle review
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review'])) {
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['review'])) {
 }
 
 // Get submissions
-$submissions = $submissionHandler->getSubmissions();
+$submissions = $submissionHandler->getSubmissionsForHR();
 
 $compareSubmission = null;
 $compareAttendance = [];

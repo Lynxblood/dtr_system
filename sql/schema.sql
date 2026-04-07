@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'hr', 'employee') DEFAULT 'employee',
+    role ENUM('admin', 'hr', 'employee', 'president', 'head') DEFAULT 'employee',
     en_no INT,
     requires_password_change TINYINT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -22,9 +22,11 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS employees (
     en_no INT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
+    head_of_employee INT NULL, -- References users.id for head role
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_name (name)
+    INDEX idx_name (name),
+    FOREIGN KEY (head_of_employee) REFERENCES users(id) ON DELETE SET NULL
 );
 
 -- =====================================================
@@ -53,7 +55,10 @@ CREATE TABLE IF NOT EXISTS employee_submissions (
     en_no INT NOT NULL,
     month VARCHAR(7) NOT NULL, -- YYYY-MM
     file_path VARCHAR(255),
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    status ENUM('draft', 'employee_signed', 'submitted_to_head', 'head_signed', 'submitted_to_president', 'president_signed', 'submitted_to_hr', 'approved', 'rejected') DEFAULT 'draft',
+    employee_signed_at TIMESTAMP NULL,
+    head_signed_at TIMESTAMP NULL,
+    president_signed_at TIMESTAMP NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     approved_at TIMESTAMP NULL,
     remarks TEXT,
@@ -78,6 +83,36 @@ CREATE TABLE IF NOT EXISTS notifications (
     INDEX idx_en_no (en_no),
     INDEX idx_read (is_read)
 );
+
+-- =====================================================
+-- Certificates Table (for electronic signatures)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS certificates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL,
+    INDEX idx_title (title)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =====================================================
+-- Signature Styles Table (for electronic signatures)
+-- =====================================================
+CREATE TABLE IF NOT EXISTS signature_styles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    certificate_id INT NOT NULL,
+    font_family VARCHAR(100) NOT NULL DEFAULT 'dejavusans',
+    font_size INT NOT NULL DEFAULT 9,
+    font_style VARCHAR(10) NOT NULL DEFAULT '',
+    show_name TINYINT(1) NOT NULL DEFAULT 1,
+    show_location TINYINT(1) NOT NULL DEFAULT 1,
+    show_date TINYINT(1) NOT NULL DEFAULT 1,
+    show_unique TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL,
+    FOREIGN KEY (certificate_id) REFERENCES certificates(id) ON DELETE CASCADE,
+    INDEX idx_certificate_id (certificate_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- NOTE: For existing databases, add user_id and allow nullable en_no in notifications:
 -- ALTER TABLE notifications ADD COLUMN user_id INT NULL;

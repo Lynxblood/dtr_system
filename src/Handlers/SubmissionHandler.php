@@ -19,9 +19,9 @@ class SubmissionHandler
     }
 
     /**
-     * Submit signed PDF
+     * Submit signed PDF by employee
      */
-    public function submit($en_no, $month, $file)
+    public function submitByEmployee($en_no, $month, $file)
     {
         // Upload file
         $uploadDir = __DIR__ . '/../../uploads/submissions/';
@@ -35,8 +35,14 @@ class SubmissionHandler
         $safeName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
         $filePath = $uploadDir . $en_no . '_' . $month . '_' . $timestamp . '_' . $safeName . ($extension ? '.' . $extension : '');
 
-        if (!move_uploaded_file($file['tmp_name'], $filePath)) {
-            return ['status' => 'error', 'message' => 'File upload failed.'];
+        if (is_uploaded_file($file['tmp_name'])) {
+            if (!move_uploaded_file($file['tmp_name'], $filePath)) {
+                return ['status' => 'error', 'message' => 'File upload failed.'];
+            }
+        } else {
+            if (!copy($file['tmp_name'], $filePath)) {
+                return ['status' => 'error', 'message' => 'File copy failed.'];
+            }
         }
 
         $existing = $this->db->fetchOne(
@@ -46,29 +52,169 @@ class SubmissionHandler
 
         if ($existing) {
             $this->db->query(
-                "UPDATE employee_submissions SET file_path = ?, status = 'pending', submitted_at = NOW(), approved_at = NULL, remarks = NULL WHERE id = ?",
+                "UPDATE employee_submissions SET file_path = ?, status = 'employee_signed', employee_signed_at = NOW() WHERE id = ?",
                 [$filePath, $existing['id']]
             );
         } else {
             $this->db->query(
-                "INSERT INTO employee_submissions (en_no, month, file_path) VALUES (?, ?, ?)",
+                "INSERT INTO employee_submissions (en_no, month, file_path, status, employee_signed_at) VALUES (?, ?, ?, 'employee_signed', NOW())",
                 [$en_no, $month, $filePath]
             );
         }
 
-        // Notify HR
-        $this->notifyHR($en_no, $month);
+        // Auto-submit to head
+        $this->submitToHead($en_no, $month);
 
-        return ['status' => 'success', 'message' => 'Submitted successfully.'];
+        return ['status' => 'success', 'message' => 'Submitted successfully to your head.'];
+    }
+
+    /**
+     * Submit to head (automatic after employee signs)
+     */
+    private function submitToHead($en_no, $month)
+    {
+        $this->db->query(
+            "UPDATE employee_submissions SET status = 'submitted_to_head' WHERE en_no = ? AND month = ?",
+            [$en_no, $month]
+        );
+
+        // Notify head
+        $this->notifyHead($en_no, $month);
+    }
+
+    /**
+     * Head signs and submits to president
+     */
+    public function submitByHead($submissionId, $signedFile)
+    {
+        $uploadDir = __DIR__ . '/../../uploads/submissions/';
+        $timestamp = time();
+        $filename = pathinfo($signedFile['name'], PATHINFO_FILENAME);
+        $extension = pathinfo($signedFile['name'], PATHINFO_EXTENSION);
+        $safeName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
+        $filePath = $uploadDir . 'head_' . $timestamp . '_' . $safeName . ($extension ? '.' . $extension : '');
+
+        if (is_uploaded_file($signedFile['tmp_name'])) {
+            if (!move_uploaded_file($signedFile['tmp_name'], $filePath)) {
+                return ['status' => 'error', 'message' => 'File upload failed.'];
+            }
+        } else {
+            if (!copy($signedFile['tmp_name'], $filePath)) {
+                return ['status' => 'error', 'message' => 'File copy failed.'];
+            }
+        }
+
+        $this->db->query(
+            "UPDATE employee_submissions SET file_path = ?, status = 'head_signed', head_signed_at = NOW() WHERE id = ?",
+            [$filePath, $submissionId]
+        );
+
+        // Auto-submit to president
+        $this->submitToPresident($submissionId);
+
+        return ['status' => 'success', 'message' => 'Submitted successfully to president.'];
+    }
+
+    /**
+     * Submit to president (automatic after head signs)
+     */
+    private function submitToPresident($submissionId)
+    {
+        $this->db->query(
+            "UPDATE employee_submissions SET status = 'submitted_to_president' WHERE id = ?",
+            [$submissionId]
+        );
+
+        // Notify president
+        $this->notifyPresident($submissionId);
+    }
+
+    /**
+     * President signs and submits to HR
+     */
+    public function submitByPresident($submissionId, $signedFile)
+    {
+        $uploadDir = __DIR__ . '/../../uploads/submissions/';
+        $timestamp = time();
+        $filename = pathinfo($signedFile['name'], PATHINFO_FILENAME);
+        $extension = pathinfo($signedFile['name'], PATHINFO_EXTENSION);
+        $safeName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
+        $filePath = $uploadDir . 'president_' . $timestamp . '_' . $safeName . ($extension ? '.' . $extension : '');
+
+        if (is_uploaded_file($signedFile['tmp_name'])) {
+            if (!move_uploaded_file($signedFile['tmp_name'], $filePath)) {
+                return ['status' => 'error', 'message' => 'File upload failed.'];
+            }
+        } else {
+            if (!copy($signedFile['tmp_name'], $filePath)) {
+                return ['status' => 'error', 'message' => 'File copy failed.'];
+            }
+        }
+
+        $this->db->query(
+            "UPDATE employee_submissions SET file_path = ?, status = 'president_signed', president_signed_at = NOW() WHERE id = ?",
+            [$filePath, $submissionId]
+        );
+
+        // Auto-submit to HR
+        $this->submitToHR($submissionId);
+
+        return ['status' => 'success', 'message' => 'Submitted successfully to HR.'];
+    }
+
+    /**
+     * Submit to HR (automatic after president signs)
+     */
+    private function submitToHR($submissionId)
+    {
+        $this->db->query(
+            "UPDATE employee_submissions SET status = 'submitted_to_hr' WHERE id = ?",
+            [$submissionId]
+        );
+
+        // Notify HR
+        $this->notifyHR($submissionId);
     }
 
     /**
      * Get submissions for HR review
      */
-    public function getSubmissions()
+    public function getSubmissionsForHR()
     {
         return $this->db->fetchAll(
-            "SELECT s.*, e.name FROM employee_submissions s JOIN employees e ON s.en_no = e.en_no ORDER BY s.submitted_at DESC"
+            "SELECT s.*, e.name FROM employee_submissions s JOIN employees e ON s.en_no = e.en_no WHERE s.status = 'submitted_to_hr' ORDER BY s.submitted_at DESC"
+        );
+    }
+
+    /**
+     * Get submissions for head review
+     */
+    public function getSubmissionsForHead($headUserId)
+    {
+        return $this->db->fetchAll(
+            "SELECT s.*, e.name FROM employee_submissions s JOIN employees e ON s.en_no = e.en_no WHERE e.head_of_employee = ? AND s.status = 'submitted_to_head' ORDER BY s.submitted_at DESC",
+            [$headUserId]
+        );
+    }
+
+    /**
+     * Get submissions for president review
+     */
+    public function getSubmissionsForPresident()
+    {
+        return $this->db->fetchAll(
+            "SELECT s.*, e.name FROM employee_submissions s JOIN employees e ON s.en_no = e.en_no WHERE s.status = 'submitted_to_president' ORDER BY s.submitted_at DESC"
+        );
+    }
+
+    /**
+     * Get submissions for employee
+     */
+    public function getEmployeeSubmissions($en_no)
+    {
+        return $this->db->fetchAll(
+            "SELECT * FROM employee_submissions WHERE en_no = ? ORDER BY submitted_at DESC",
+            [$en_no]
         );
     }
 
@@ -100,7 +246,7 @@ class SubmissionHandler
     }
 
     /**
-     * Approve or reject submission
+     * Approve or reject submission (HR only)
      */
     public function review($id, $status, $remarks = null)
     {
@@ -120,20 +266,40 @@ class SubmissionHandler
         $this->notifyEmployee($submission['en_no'], $message);
     }
 
-    /**
-     * Get submissions for employee
-     */
-    public function getEmployeeSubmissions($en_no)
+    private function notifyHR($submissionId)
     {
-        return $this->db->fetchAll(
-            "SELECT * FROM employee_submissions WHERE en_no = ? ORDER BY submitted_at DESC",
-            [$en_no]
-        );
+        // Notify all HR users
+        $hrUsers = $this->db->fetchAll("SELECT id FROM users WHERE role = 'hr'");
+        foreach ($hrUsers as $hr) {
+            $this->db->query(
+                "INSERT INTO notifications (user_id, message) VALUES (?, ?)",
+                [$hr['id'], 'New submission ready for review.']
+            );
+        }
     }
 
-    private function notifyHR($en_no, $month)
+    private function notifyHead($en_no, $month)
     {
-        // For now, just log or email. Assume HR gets notified via dashboard.
+        // Get employee's head
+        $employee = $this->db->fetchOne("SELECT head_of_employee FROM employees WHERE en_no = ?", [$en_no]);
+        if ($employee && $employee['head_of_employee']) {
+            $this->db->query(
+                "INSERT INTO notifications (user_id, message) VALUES (?, ?)",
+                [$employee['head_of_employee'], 'New submission from employee ' . $en_no . ' for ' . $month . ' ready for review.']
+            );
+        }
+    }
+
+    private function notifyPresident($submissionId)
+    {
+        // Notify all president users
+        $presidents = $this->db->fetchAll("SELECT id FROM users WHERE role = 'president'");
+        foreach ($presidents as $president) {
+            $this->db->query(
+                "INSERT INTO notifications (user_id, message) VALUES (?, ?)",
+                [$president['id'], 'New submission ready for presidential review.']
+            );
+        }
     }
 
     private function notifyEmployee($en_no, $message)
